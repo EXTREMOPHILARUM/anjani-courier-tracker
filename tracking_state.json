@@ -1,5 +1,6 @@
 {
   "1566745548": {
+    "label": "Printer",
     "tracking_number": "1566745548",
     "courier": "Anjani Courier",
     "status": "IN TRANSIT",
@@ -13,10 +14,10 @@
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745548",
     "fetched_at": "2026-01-29T10:15:48.350391",
-    "error": null,
-    "label": "Office Supplies"
+    "error": null
   },
   "1566745519": {
+    "label": "Filament",
     "tracking_number": "1566745519",
     "courier": "Anjani Courier",
     "status": "IN TRANSIT",
@@ -36,7 +37,6 @@
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745519",
     "fetched_at": "2026-01-29T10:16:11.442924",
-    "error": null,
-    "label": "Laptop Charger"
+    "error": null
   }
 }
