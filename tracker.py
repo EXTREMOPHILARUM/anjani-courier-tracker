@@ -286,8 +286,13 @@ class AnjaniTracker:
 
             emoji = status_emoji.get(tracking_info.get('status', ''), '📍')
 
+            # Build title with optional label
+            title = f"📦 Package Update - {tracking_info['tracking_number']}"
+            if tracking_info.get('label'):
+                title = f"📦 {tracking_info['label']} ({tracking_info['tracking_number']})"
+
             message_lines = [
-                f"*📦 Package Update - {tracking_info['tracking_number']}*",
+                f"*{title}*",
                 f"{emoji} *Status:* {tracking_info.get('status', 'Unknown')}",
                 f"🚚 *Courier:* {tracking_info['courier']}",
             ]

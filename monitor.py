@@ -87,12 +87,22 @@ def main():
     errors = 0
 
     for tracking_id in tracking_ids:
+        # Extract label from previous state if it exists
+        label = None
+        if tracking_id in previous_state:
+            label = previous_state[tracking_id].get('label')
+
         print(f"\n{'─'*70}")
-        print(f"🔍 Checking: {tracking_id}")
+        label_text = f" ({label})" if label else ""
+        print(f"🔍 Checking: {tracking_id}{label_text}")
 
         try:
             # Get current tracking info
             tracking_info = tracker.track(tracking_id)
+
+            # Add label to tracking info if it exists
+            if label:
+                tracking_info['label'] = label
 
             if tracking_info.get('error'):
                 print(f"❌ Error tracking {tracking_id}: {tracking_info['error']}")
@@ -103,7 +113,7 @@ def main():
                 continue
 
             # Check for changes
-            if tracking_id in previous_state:
+            if tracking_id in previous_state and previous_state[tracking_id]:
                 has_changes, change_list = AnjaniTracker.has_changes(
                     previous_state[tracking_id],
                     tracking_info

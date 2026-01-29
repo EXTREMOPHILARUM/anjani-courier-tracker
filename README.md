@@ -39,15 +39,29 @@ git push
 
 ### 4. Add Your Tracking Numbers
 
-Edit `tracking_state.json` and add your tracking IDs as keys:
+Edit `tracking_state.json` and add your tracking IDs as keys.
 
+**Option 1: Without labels (simple)**
 ```json
 {
   "1566745519": {},
-  "1234567890": {},
-  "YOUR_TRACKING_ID": {}
+  "1234567890": {}
 }
 ```
+
+**Option 2: With labels (recommended)**
+```json
+{
+  "1566745519": {
+    "label": "Laptop Charger from Amazon"
+  },
+  "1234567890": {
+    "label": "Birthday Gift - Watch"
+  }
+}
+```
+
+Labels appear in Google Chat notifications to help you identify packages.
 
 Commit and push:
 
@@ -77,21 +91,34 @@ The workflow runs automatically every 30 minutes. You'll get notifications in Go
 
 ### State File
 
-The `tracking_state.json` file serves two purposes:
+The `tracking_state.json` file serves three purposes:
 
 1. **Configuration** - Lists which packages to track (as keys)
-2. **State storage** - Stores last known state to detect changes
+2. **Labels** - Optional descriptions for each package
+3. **State storage** - Stores last known state to detect changes
 
 **To add a new package:**
 ```json
 {
   "existing_package": { ... existing data ... },
+  "NEW_TRACKING_ID": {
+    "label": "Description of package"
+  }
+}
+```
+
+Or without a label:
+```json
+{
   "NEW_TRACKING_ID": {}
 }
 ```
 
 **To remove a package:**
 Simply delete its key from the JSON file.
+
+**To update a label:**
+Edit the `label` field and commit. Labels are preserved across tracking updates.
 
 ## Manual Run
 
@@ -169,6 +196,21 @@ anjani-courier-tracker/
 
 ## Notification Example
 
+**With label:**
+```
+📦 Laptop Charger (1566745519)
+✅ Status: DELIVERED
+🚚 Courier: Anjani Courier
+
+Latest Update:
+📅 29-Jan-2026 2:30 PM
+📝 Package delivered successfully
+📍 BANDRA-EAST
+
+🔗 View Full Tracking
+```
+
+**Without label:**
 ```
 📦 Package Update - 1566745519
 ✅ Status: DELIVERED
