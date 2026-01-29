@@ -7,12 +7,18 @@
       {
         "date": "29-Jan-2026",
         "time": "",
-        "activity": "BOOKED ON 28/01/26 Anjani Courier",
+        "activity": "ON WAY [IN TRANSIT] Anjani Courier",
         "location": ""
+      },
+      {
+        "date": "30-Jan-2026",
+        "time": "01:14 AM",
+        "activity": "OUT Anjani Courier",
+        "location": "PUNE HINJEWADI R.O. -> KARVE ROAD"
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745548",
-    "fetched_at": "2026-01-29T20:43:58.980546",
+    "fetched_at": "2026-01-29T21:07:52.397168",
     "error": null,
     "label": "Printer"
   },
@@ -35,7 +41,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745519",
-    "fetched_at": "2026-01-29T20:44:23.724985",
+    "fetched_at": "2026-01-29T21:08:17.542944",
     "error": null,
     "label": "Filament"
   }
