@@ -1,303 +1,215 @@
 # Anjani Courier Package Tracker
 
-A Python script to track Anjani Courier packages from https://trackcourier.io/anjani-courier-tracking
+Automated package tracking with Google Chat notifications. Runs on GitHub Actions every 30 minutes and notifies you **only when something changes**.
 
 ## Features
 
-- ✅ Track single or multiple packages
-- 📊 Get real-time tracking status (IN TRANSIT, DELIVERED, etc.)
-- 📋 View complete tracking history with timestamps and locations
-- 💾 Save tracking data to JSON files
-- 🚀 Fast and automated using Playwright
-- 💬 Google Chat webhook notifications
-- 🤖 **Automated monitoring with GitHub Actions**
-- 🔔 **Smart notifications - only on changes**
+- 🤖 **Automated monitoring** via GitHub Actions
+- 🔔 **Smart notifications** - only on status changes, new checkpoints, or updates
+- 💬 **Google Chat integration**
+- 📊 **State tracking** - no duplicate notifications
+- ⚙️ **Simple configuration** - just one secret, tracking IDs in JSON file
 
-## Installation
+## Quick Setup
 
-### 1. Install Dependencies
+### 1. Get Google Chat Webhook
 
-```bash
-# Install required Python packages
-uv pip install playwright requests beautifulsoup4 lxml
+1. Open Google Chat → Go to a space
+2. Click space name → **Apps & integrations** → **Add webhooks**
+3. Name it "Package Tracker" and copy the webhook URL
 
-# Install Chromium browser for Playwright
-uv run playwright install chromium
-```
-
-### 2. Make Script Executable (Optional)
+### 2. Fork/Clone and Push to GitHub
 
 ```bash
-chmod +x anjani_tracker_final.py
+git clone https://github.com/EXTREMOPHILARUM/anjani-courier-tracker.git
+cd anjani-courier-tracker
+
+# Push to your own repository
+git remote set-url origin https://github.com/YOUR_USERNAME/anjani-courier-tracker.git
+git push
 ```
 
-## Usage
+### 3. Add GitHub Secret
 
-### Basic Usage
+1. Go to your repo → **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Name: `GOOGLE_CHAT_WEBHOOK`
+4. Value: Your webhook URL from step 1
+5. Click **Add secret**
 
-Track a single package:
+### 4. Add Your Tracking Numbers
 
-```bash
-uv run python3 anjani_tracker_final.py 1566745519
-```
-
-### Track Multiple Packages
-
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 1234567890 9876543210
-```
-
-### Save Results to JSON
-
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 --save-json
-```
-
-This will create a file like `tracking_1566745519_20260129_135324.json` with all tracking data.
-
-### Show Browser Window (for debugging)
-
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 --show-browser
-```
-
-### Send to Google Chat Webhook
-
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 --webhook="https://chat.googleapis.com/v1/spaces/XXXXX/messages?key=XXXXX&token=XXXXX"
-```
-
-### Combined Options
-
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 --save-json --show-browser --webhook="<your_webhook_url>"
-```
-
-## Output Example
-
-```
-🔍 Tracking 1 package(s)...
-
-======================================================================
-📦 Tracking Number: 1566745519
-🚚 Courier: Anjani Courier
-🚛 Status: IN TRANSIT
-🔗 URL: https://trackcourier.io/track-and-trace/anjani-courier/1566745519
-🕐 Fetched: 2026-01-29T13:52:45.753331
-
-📋 Tracking History (2 events):
-----------------------------------------------------------------------
-
-[1] 29-Jan-2026
-    📝 Activity: ON WAY [IN TRANSIT] Anjani Courier
-
-[2] 29-Jan-2026 at 11:26 AM
-    📝 Activity: IN Anjani Courier
-    📍 Location: BANDRA-EAST
-======================================================================
-```
-
-## JSON Output Format
-
-When using `--save-json`, the output file contains:
+Edit `tracking_state.json` and add your tracking IDs as keys:
 
 ```json
 {
-  "tracking_number": "1566745519",
-  "courier": "Anjani Courier",
-  "status": "IN TRANSIT",
-  "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745519",
-  "fetched_at": "2026-01-29T13:52:45.753331",
-  "checkpoints": [
-    {
-      "date": "29-Jan-2026",
-      "time": "",
-      "activity": "ON WAY [IN TRANSIT] Anjani Courier",
-      "location": ""
-    },
-    {
-      "date": "29-Jan-2026",
-      "time": "11:26 AM",
-      "activity": "IN Anjani Courier",
-      "location": "BANDRA-EAST"
-    }
-  ],
-  "error": null
+  "1566745519": {},
+  "1234567890": {},
+  "YOUR_TRACKING_ID": {}
 }
 ```
 
-## 🤖 Automated Monitoring with GitHub Actions
-
-Set up automated package tracking that runs on a schedule and sends notifications **only when changes are detected**!
-
-### Quick Start
-
-1. **Push to GitHub:**
-   ```bash
-   git add .
-   git commit -m "Setup automated monitoring"
-   git push
-   ```
-
-2. **Add GitHub Secrets:**
-   Go to Settings → Secrets → Actions → New secret
-
-   **Secret 1:** `GOOGLE_CHAT_WEBHOOK`
-   - Value: Your webhook URL
-
-   **Secret 2:** `TRACKING_IDS`
-   - Value: `1566745519,1234567890` (comma-separated)
-
-3. **Done!** The workflow runs every 30 minutes and notifies you of changes.
-
-### How It Works
-
-- 📂 Saves tracking state to `tracking_state.json`
-- 🔍 Checks packages on a schedule (default: every 30 minutes)
-- 🔔 Sends Google Chat notifications **only when something changes**:
-  - Status changes (e.g., IN TRANSIT → DELIVERED)
-  - New checkpoints added
-  - First time tracking a package
-- ⏭️ No spam - skips notification if nothing changed
-
-### Manual Monitoring
-
-You can also run the monitoring script locally:
+Commit and push:
 
 ```bash
-# Set environment variables
+git add tracking_state.json
+git commit -m "Add my tracking numbers"
+git push
+```
+
+### 5. Done! ✨
+
+The workflow runs automatically every 30 minutes. You'll get notifications in Google Chat when packages update.
+
+## How It Works
+
+### Automated Monitoring
+
+- ⏰ **Runs every 30 minutes** via GitHub Actions
+- 📦 **Tracks all packages** in `tracking_state.json`
+- 🔍 **Compares with previous state** to detect changes
+- 🔔 **Sends notifications** only when:
+  - Status changes (e.g., IN TRANSIT → DELIVERED)
+  - New tracking checkpoints appear
+  - Location updates
+  - First time tracking a package
+- 💾 **Saves new state** automatically
+
+### State File
+
+The `tracking_state.json` file serves two purposes:
+
+1. **Configuration** - Lists which packages to track (as keys)
+2. **State storage** - Stores last known state to detect changes
+
+**To add a new package:**
+```json
+{
+  "existing_package": { ... existing data ... },
+  "NEW_TRACKING_ID": {}
+}
+```
+
+**To remove a package:**
+Simply delete its key from the JSON file.
+
+## Manual Run
+
+Test anytime from the Actions tab:
+
+1. Go to your repo → **Actions**
+2. Click **Monitor Packages**
+3. Click **Run workflow** → **Run workflow**
+
+## Local Testing
+
+```bash
+# Install dependencies
+uv pip install -r requirements.txt
+uv run playwright install chromium
+
+# Set webhook
 export GOOGLE_CHAT_WEBHOOK="your_webhook_url"
-export TRACKING_IDS="1566745519,1234567890"
 
 # Run monitor
-uv run python3 monitor_packages.py
+uv run python3 monitor.py
 ```
 
-**[📖 See GITHUB_ACTIONS_SETUP.md for complete setup guide](GITHUB_ACTIONS_SETUP.md)**
+## One-Time Tracking (No Automation)
 
-## Google Chat Integration
-
-Send tracking notifications directly to Google Chat! 💬
-
-Quick example:
-```bash
-uv run python3 anjani_tracker_final.py 1566745519 --webhook="<your_webhook_url>"
-```
-
-**[📖 See GOOGLE_CHAT_SETUP.md for complete setup instructions](GOOGLE_CHAT_SETUP.md)**
-
-The notification includes:
-- 📦 Tracking number
-- 🚛 Current status with emoji
-- 📝 Latest tracking activity
-- 📍 Location (if available)
-- 🔗 Direct link to full tracking
-
-## Using as a Python Module
-
-You can also import and use the tracker in your own Python scripts:
-
-```python
-from anjani_tracker_final import AnjaniTracker
-
-# Create tracker instance
-tracker = AnjaniTracker(headless=True)
-
-# Track a package
-tracking_info = tracker.track('1566745519')
-
-# Print formatted output
-tracker.print_tracking_info(tracking_info)
-
-# Save to JSON
-tracker.save_to_json(tracking_info)
-
-# Send to Google Chat
-webhook_url = "https://chat.googleapis.com/v1/spaces/XXXXX/messages?key=XXXXX&token=XXXXX"
-tracker.send_to_google_chat(tracking_info, webhook_url)
-
-# Track multiple packages
-results = tracker.track_multiple(['1566745519', '1234567890'])
-for result in results:
-    tracker.print_tracking_info(result)
-```
-
-## Configuration
-
-### Wait Time
-
-The script waits 15 seconds for the page to load dynamic content. This is set in the code as:
-
-```python
-page.wait_for_timeout(15000)  # 15 seconds
-```
-
-If the site is loading slower, you can increase this value by editing the script.
-
-### Headless Mode
-
-By default, the browser runs in headless mode (no window). To see the browser:
+Track a package once without setting up automation:
 
 ```bash
-uv run python3 anjani_tracker_final.py 1566745519 --show-browser
+uv pip install -r requirements.txt
+uv run playwright install chromium
+
+# Basic tracking
+uv run python3 tracker.py 1566745519
+
+# With Google Chat notification
+uv run python3 tracker.py 1566745519 --webhook="YOUR_WEBHOOK_URL"
+
+# Save to JSON file
+uv run python3 tracker.py 1566745519 --save-json
+
+# Show browser (for debugging)
+uv run python3 tracker.py 1566745519 --show-browser
 ```
 
-Or in code:
+## Customization
 
-```python
-tracker = AnjaniTracker(headless=False)
+### Change Schedule
+
+Edit `.github/workflows/monitor-packages.yml`:
+
+```yaml
+schedule:
+  - cron: '0 * * * *'  # Every hour
+  - cron: '0 */2 * * *'  # Every 2 hours
+  - cron: '*/15 * * * *'  # Every 15 minutes
+```
+
+### Modify Notification Format
+
+Edit the `send_to_google_chat()` method in `tracker.py` to customize message formatting.
+
+## File Structure
+
+```
+anjani-courier-tracker/
+├── .github/workflows/
+│   └── monitor-packages.yml    # GitHub Actions workflow
+├── tracker.py                   # Core package tracker
+├── monitor.py                   # Automated monitoring script
+├── tracking_state.json          # Configuration + state
+├── requirements.txt             # Python dependencies
+├── .gitignore
+└── README.md                    # This file
+```
+
+## Notification Example
+
+```
+📦 Package Update - 1566745519
+✅ Status: DELIVERED
+🚚 Courier: Anjani Courier
+
+Latest Update:
+📅 29-Jan-2026 2:30 PM
+📝 Package delivered successfully
+📍 BANDRA-EAST
+
+🔗 View Full Tracking
 ```
 
 ## Troubleshooting
 
-### "No tracking checkpoints found"
+### No notifications received?
+- Check the webhook URL is correct in GitHub Secrets
+- Verify packages have actually changed since last check
+- Check workflow logs in Actions tab
 
-- The site may need more time to load. Try increasing the wait time in the script.
-- Check if the tracking number is valid by visiting the URL manually.
-- Use `--show-browser` to see what the browser is displaying.
+### Workflow failing?
+- Go to Actions → Click failed run → View logs
+- Common issue: Page timeout (will auto-retry next run)
+- Check `tracking_state.json` is valid JSON
 
-### "Timeout loading tracking page"
+### Want to track new package?
+- Edit `tracking_state.json`
+- Add new tracking ID as a key with empty object `{}`
+- Commit and push
 
-- Your internet connection may be slow.
-- The trackcourier.io site may be down or slow.
-- Try increasing the timeout value in the code.
+## Requirements
 
-### Playwright not installed
-
-```bash
-uv run playwright install chromium
-```
-
-## Notes
-
-- The site uses dynamic JavaScript to load tracking data, so the script waits 15 seconds for content to appear.
-- The script respects the site's loading times and doesn't make excessive requests.
-- Tracking data is fetched in real-time from the website.
-
-## Files
-
-### Core Scripts
-- `anjani_tracker_final.py` - Main tracker with Google Chat & state tracking (recommended)
-- `monitor_packages.py` - Automated monitoring script for scheduled runs
-- `anjani_tracker_playwright.py` - Alternative version
-- `anjani_tracker.py` - Basic version using requests (may not work due to dynamic content)
-
-### Examples & State
-- `example_usage.py` - Example Python usage
-- `google_chat_example.py` - Example Google Chat integration
-- `tracking_state.json` - State file for change detection (auto-generated)
-
-### Documentation
-- `README.md` - This file
-- `GOOGLE_CHAT_SETUP.md` - Detailed Google Chat setup guide
-- `GITHUB_ACTIONS_SETUP.md` - Complete GitHub Actions setup guide
-
-### GitHub Actions
-- `.github/workflows/monitor-packages.yml` - Automated monitoring workflow
-
-### Dependencies
-- `requirements.txt` - Python dependencies
+- Python 3.12+
+- Playwright (for browser automation)
+- GitHub Actions (free for public repos)
+- Google Chat space with webhook
 
 ## License
 
-Free to use for personal package tracking purposes.
+Free to use for personal package tracking.
+
+## Support
+
+For issues: https://github.com/EXTREMOPHILARUM/anjani-courier-tracker/issues

@@ -13,9 +13,10 @@ on:
     branches:
       - main
     paths:
-      - 'monitor_packages.py'
-      - 'anjani_tracker_final.py'
+      - 'monitor.py'
+      - 'tracker.py'
       - '.github/workflows/monitor-packages.yml'
+      - 'tracking_state.json'
 
 permissions:
   contents: write
@@ -49,9 +50,8 @@ jobs:
       - name: Run package monitor
         env:
           GOOGLE_CHAT_WEBHOOK: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
-          TRACKING_IDS: ${{ secrets.TRACKING_IDS }}
         run: |
-          python3 monitor_packages.py
+          python3 monitor.py
 
       - name: Commit and push state changes
         run: |

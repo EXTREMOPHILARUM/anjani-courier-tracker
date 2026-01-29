@@ -5,46 +5,50 @@ Tracks packages and sends Google Chat notifications only when changes are detect
 Designed to run via GitHub Actions or cron jobs
 """
 
-from anjani_tracker_final import AnjaniTracker
+from tracker import AnjaniTracker
 import json
 import os
 import sys
 from datetime import datetime
 
 
-def get_tracking_ids():
+def get_tracking_ids(state_file='tracking_state.json'):
     """
-    Get tracking IDs from environment variable
+    Get tracking IDs from state file
 
-    Expects TRACKING_IDS environment variable with comma-separated tracking numbers
-    Example: "1566745519,1234567890,9876543210"
-    Or JSON array: ["1566745519","1234567890"]
+    The state file contains all tracking IDs as top-level keys.
+    To add a new tracking ID, add it to the state file with an empty object:
+    {
+      "existing_id": { ... },
+      "new_tracking_id": {}
+    }
     """
-    tracking_ids_env = os.environ.get('TRACKING_IDS', '').strip()
+    try:
+        with open(state_file, 'r') as f:
+            state = json.load(f)
+            tracking_ids = list(state.keys())
 
-    if not tracking_ids_env:
-        print("❌ No tracking IDs provided")
-        print("Set TRACKING_IDS environment variable")
-        print("Example: export TRACKING_IDS='1566745519,1234567890'")
+            if not tracking_ids:
+                print("⚠️  No tracking IDs in state file")
+                print(f"Add tracking IDs to {state_file}:")
+                print('{"1566745519": {}, "1234567890": {}}')
+                sys.exit(1)
+
+            return tracking_ids
+    except FileNotFoundError:
+        print(f"⚠️  State file not found: {state_file}")
+        print("Creating initial state file...")
+        print("Add your tracking IDs as keys:")
+        print('{"1566745519": {}, "1234567890": {}}')
+
+        # Create empty state file
+        with open(state_file, 'w') as f:
+            json.dump({}, f, indent=2)
+
         sys.exit(1)
-
-    # Try to parse as JSON array first
-    if tracking_ids_env.startswith('['):
-        try:
-            tracking_ids = json.loads(tracking_ids_env)
-            return [str(tid).strip() for tid in tracking_ids]
-        except json.JSONDecodeError:
-            print("❌ Invalid JSON in TRACKING_IDS")
-            sys.exit(1)
-
-    # Otherwise, parse as comma-separated values
-    tracking_ids = [tid.strip() for tid in tracking_ids_env.split(',') if tid.strip()]
-
-    if not tracking_ids:
-        print("❌ No valid tracking IDs found")
+    except json.JSONDecodeError:
+        print(f"❌ Invalid JSON in {state_file}")
         sys.exit(1)
-
-    return tracking_ids
 
 
 def main():
@@ -61,8 +65,10 @@ def main():
         print("Set GOOGLE_CHAT_WEBHOOK environment variable")
         sys.exit(1)
 
-    # Get tracking IDs from environment variable
-    tracking_ids = get_tracking_ids()
+    # Load previous state and get tracking IDs from it
+    state_file = 'tracking_state.json'
+    previous_state = AnjaniTracker.load_state(state_file)
+    tracking_ids = get_tracking_ids(state_file)
 
     if not tracking_ids:
         print("❌ No tracking IDs provided in config file")
@@ -70,10 +76,6 @@ def main():
 
     print(f"\n📦 Monitoring {len(tracking_ids)} package(s)")
     print(f"💬 Webhook configured: {webhook_url[:50]}...")
-
-    # Load previous state
-    state_file = 'tracking_state.json'
-    previous_state = AnjaniTracker.load_state(state_file)
     print(f"📂 Loaded previous state: {len(previous_state)} tracked package(s)")
 
     # Initialize tracker
