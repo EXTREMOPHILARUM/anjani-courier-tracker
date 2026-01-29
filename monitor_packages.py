@@ -153,9 +153,13 @@ def main():
     print(f"   • Run completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*70)
 
-    # Exit with error code if there were any errors
-    if errors > 0:
+    # Exit with error code only if ALL packages failed
+    if errors > 0 and notifications_sent == 0 and len(new_state) == 0:
+        print("\n❌ All packages failed to track")
         sys.exit(1)
+    elif errors > 0:
+        print(f"\n⚠️  Some packages had errors, but {notifications_sent} succeeded")
+        sys.exit(0)  # Success despite some errors
 
 
 if __name__ == "__main__":
