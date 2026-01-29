@@ -59,10 +59,10 @@ class AnjaniTracker:
                 page = context.new_page()
 
                 # Navigate to tracking page
-                page.goto(url, wait_until='networkidle', timeout=30000)
+                page.goto(url, wait_until='networkidle', timeout=60000)
 
                 # Wait for content to load - site takes long to load dynamic content
-                page.wait_for_timeout(15000)
+                page.wait_for_timeout(20000)
 
                 # Extract status
                 page_text = page.inner_text('body')
