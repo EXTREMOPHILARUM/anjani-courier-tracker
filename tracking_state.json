@@ -7,7 +7,7 @@
       {
         "date": "30-Jan-2026",
         "time": "",
-        "activity": "ON WAY [IN TRANSIT] Anjani Courier",
+        "activity": "IN DELIVERY PROCESS Anjani Courier",
         "location": ""
       },
       {
@@ -18,7 +18,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745548",
-    "fetched_at": "2026-01-30T09:45:46.808099",
+    "fetched_at": "2026-01-30T11:10:48.276366",
     "error": null,
     "label": "Printer"
   },
@@ -41,7 +41,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745519",
-    "fetched_at": "2026-01-30T10:11:31.125599",
+    "fetched_at": "2026-01-30T11:11:13.421085",
     "error": null,
     "label": "Filament"
   }
