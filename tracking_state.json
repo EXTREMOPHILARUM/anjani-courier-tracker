@@ -5,7 +5,7 @@
     "status": "IN TRANSIT",
     "checkpoints": [
       {
-        "date": "29-Jan-2026",
+        "date": "30-Jan-2026",
         "time": "",
         "activity": "ON WAY [IN TRANSIT] Anjani Courier",
         "location": ""
@@ -18,7 +18,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745548",
-    "fetched_at": "2026-01-30T00:19:55.910423",
+    "fetched_at": "2026-01-30T00:52:43.469668",
     "error": null,
     "label": "Printer"
   },
@@ -28,7 +28,7 @@
     "status": "IN TRANSIT",
     "checkpoints": [
       {
-        "date": "29-Jan-2026",
+        "date": "30-Jan-2026",
         "time": "",
         "activity": "IN DELIVERY PROCESS Anjani Courier",
         "location": ""
@@ -41,7 +41,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745519",
-    "fetched_at": "2026-01-30T00:20:21.117026",
+    "fetched_at": "2026-01-30T00:53:08.660371",
     "error": null,
     "label": "Filament"
   }
