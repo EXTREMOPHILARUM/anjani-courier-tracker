@@ -2,12 +2,12 @@
   "1566745549": {
     "tracking_number": "1566745549",
     "courier": "Anjani Courier",
-    "status": "IN TRANSIT",
+    "status": "DELIVERED",
     "checkpoints": [
       {
         "date": "30-Jan-2026",
         "time": "",
-        "activity": "IN DELIVERY PROCESS Anjani Courier",
+        "activity": "DELIVERED ON 30/01/26 Anjani Courier",
         "location": ""
       },
       {
@@ -18,7 +18,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745549",
-    "fetched_at": "2026-01-30T14:44:50.635703",
+    "fetched_at": "2026-01-30T15:11:17.405925",
     "error": null
   },
   "1566745541": {
@@ -40,7 +40,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745541",
-    "fetched_at": "2026-01-30T14:45:16.037615",
+    "fetched_at": "2026-01-30T15:11:43.272226",
     "error": null
   }
 }
