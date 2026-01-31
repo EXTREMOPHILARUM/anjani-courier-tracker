@@ -5,7 +5,7 @@
     "status": "DELIVERED",
     "checkpoints": [
       {
-        "date": "30-Jan-2026",
+        "date": "31-Jan-2026",
         "time": "",
         "activity": "DELIVERED ON 30/01/26 Anjani Courier",
         "location": ""
@@ -18,7 +18,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745549",
-    "fetched_at": "2026-01-31T15:05:59.324591",
+    "fetched_at": "2026-01-31T15:39:27.656783",
     "error": null
   },
   "1566745541": {
@@ -40,7 +40,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745541",
-    "fetched_at": "2026-01-31T15:06:23.490755",
+    "fetched_at": "2026-01-31T15:39:51.877839",
     "error": null
   }
 }
