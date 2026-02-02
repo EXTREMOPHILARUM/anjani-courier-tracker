@@ -2,10 +2,23 @@
   "1566745549": {
     "tracking_number": "1566745549",
     "courier": "Anjani Courier",
-    "status": null,
-    "checkpoints": [],
+    "status": "DELIVERED",
+    "checkpoints": [
+      {
+        "date": "01-Feb-2026",
+        "time": "",
+        "activity": "DELIVERED ON 30/01/26 Anjani Courier",
+        "location": ""
+      },
+      {
+        "date": "30-Jan-2026",
+        "time": "11:28 AM",
+        "activity": "IN Anjani Courier",
+        "location": "BANDRA-EAST"
+      }
+    ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745549",
-    "fetched_at": "2026-02-02T04:18:12.426731",
+    "fetched_at": "2026-02-02T05:08:45.199170",
     "error": null
   },
   "1566745541": {
@@ -27,7 +40,7 @@
       }
     ],
     "url": "https://trackcourier.io/track-and-trace/anjani-courier/1566745541",
-    "fetched_at": "2026-02-02T01:36:23.367623",
+    "fetched_at": "2026-02-02T05:09:09.163402",
     "error": null
   }
 }
