@@ -2,8 +2,8 @@ name: Monitor Packages
 
 on:
   # Run every 30 minutes
-  schedule:
-    - cron: '*/30 * * * *'
+  # schedule:
+  #   - cron: '*/30 * * * *'
 
   # Allow manual trigger
   workflow_dispatch:
